@@ -74,7 +74,7 @@ void AddConversationModal::onfinish(QNetworkReply* reply) {
 
 void AddConversationModal::initWidget(QNetworkReply* reply) {
     this->vbox = new QVBoxLayout();
-    this->label = new QLabel("Pick selected users!");
+    this->label = new QLabel("Insert name and pick users!");
     this->conversationNameInput = new QLineEdit();
     QPushButton* okButton = new QPushButton("OK");
     connect(okButton, &QPushButton::clicked, [=]() {
@@ -105,5 +105,3 @@ void AddConversationModal::initWidget(QNetworkReply* reply) {
     vbox->addStretch(1);
     this->setLayout(vbox);
 }
-
-

@@ -21,7 +21,6 @@ MainWindow::~MainWindow() {
     delete httpManager;
 }
 
-
 void MainWindow::initWebsocketConnection() {
     connect(&m_webSocket, &QWebSocket::connected, this, &MainWindow::onConnected);
     connect(&m_webSocket, &QWebSocket::disconnected, this, &MainWindow::closed);
@@ -58,7 +57,6 @@ void MainWindow::onAddConversationButtonClicked() {
     AddConversationModal* conf = new AddConversationModal();
     conf->show();
 }
-
 
 void MainWindow::fetchConversations() {
     httpManager
@@ -133,7 +131,11 @@ void MainWindow::fetchConversations(QNetworkReply* reply) {
         QJsonValue UUID = object.value("uuid");
 
         ChatBubble* chatBubble = new ChatBubble(title.toString());
-        ChatBubble::connect(chatBubble, &ChatBubble::clicked, [=]() { onBubbleClick(UUID.toString()); });
+        chatBubble->setUUID(UUID.toString());
+
+        ChatBubble::connect(chatBubble, &ChatBubble::clicked, [=]() {
+            onBubbleClick(UUID.toString());
+        });
 
         chatBubbles.push_back(chatBubble);
         QVBoxLayout* layout =  dynamic_cast<QVBoxLayout*>(this->ui->scrollAreaWidgetContents->layout());
@@ -169,13 +171,9 @@ void MainWindow::addMessage(QString body) {
 
     if(ClientContext::getUuid() != uuid) {
 
-        QMessageBox::information(0, "new mess", "New message!", "ok");
-
-
-        // todo fix
         for(auto &chat : chatBubbles) {
             if(chat->getUUID() == uuid) {
-                chat->setStyleSheet("border-color: red;");
+                chat->setNotified();
                 return;
             }
         }
@@ -217,7 +215,16 @@ void MainWindow::onBubbleClick(QString UUID) {
     }
 
     ClientContext::setUuid(UUID);
+
+    for(auto &chat : chatBubbles) {
+        if(chat->getUUID() == UUID) {
+            chat->setRead();
+            break;
+        }
+    }
+
     this->rerenderMessages();
+
 }
 
 

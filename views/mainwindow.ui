@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
+    <width>572</width>
     <height>570</height>
    </rect>
   </property>
@@ -181,7 +181,7 @@ QPushButton:hover {
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="text">
-           <string>PushButton</string>
+           <string>Send</string>
           </property>
          </widget>
         </item>
@@ -196,7 +196,7 @@ QPushButton:hover {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>570</width>
+     <width>572</width>
      <height>37</height>
     </rect>
    </property>
